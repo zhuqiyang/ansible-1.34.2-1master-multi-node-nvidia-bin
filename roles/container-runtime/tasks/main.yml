@@ -14,6 +14,23 @@
   include_tasks: install-docker.yml
   when: not container_runtimeok_result.stat.exists and container_runtime == 'docker'
 
+- name: 检查是否有显卡
+  shell: |
+    if lspci | grep -i 'NVIDIA' > /dev/null; then
+      echo '有显卡'
+    else
+      echo '没有显卡'
+    fi
+  register: lspci_result
+
+- name: 打印lspci结果
+  debug:
+    var: lspci_result.stdout
+
 - name: 安装containerd
   include_tasks: install-containerd.yml
-  when: not container_runtimeok_result.stat.exists and container_runtime == 'containerd'
+  when: not container_runtimeok_result.stat.exists and container_runtime == 'containerd' and lspci_result.stdout == '没有显卡'
+
+- name: 安装containerd-nvidia
+  include_tasks: install-containerd-nvidia.yml
+  when: not container_runtimeok_result.stat.exists and container_runtime == 'containerd' and lspci_result.stdout == '有显卡'

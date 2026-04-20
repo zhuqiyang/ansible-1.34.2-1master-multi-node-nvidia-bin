@@ -266,39 +266,36 @@
     owner: root
     group: root
 
-#
-# 没有显卡的节点不用执行下面命令
-# 
-# - name: 添加apt源
-#   shell: |
-#     curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
-#     curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
-#       sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
-#       tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+- name: 添加apt源
+  shell: |
+    curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
+    curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
+      sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
+      tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
 
-# - name: update apt cache
-#   apt:
-#     update_cache: yes
+- name: update apt cache
+  apt:
+    update_cache: yes
 
-# - name: install nvidia-container-toolkit
-#   apt:
-#     name: nvidia-container-toolkit
-#     state: present
+- name: install nvidia-container-toolkit
+  apt:
+    name: nvidia-container-toolkit
+    state: present
 
-# - name: nvidia-ctk runtime configure --runtime=containerd
-#   shell: nvidia-ctk runtime configure --runtime=containerd
-# # end nvidia-container-toolkit --------------------------------------
+- name: nvidia-ctk runtime configure --runtime=containerd
+  shell: nvidia-ctk runtime configure --runtime=containerd
+# end nvidia-container-toolkit --------------------------------------
 
-# - name: nvidia-container-runtime --version
-#   shell: nvidia-container-runtime --version
+- name: nvidia-container-runtime --version
+  shell: nvidia-container-runtime --version
 
-# # cdi generate --------------------------------------
-# - name: nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml
-#   shell: nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml
+# cdi generate --------------------------------------
+- name: nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml
+  shell: nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml
 
-# - name: nvidia-ctk cdi list
-#   shell: nvidia-ctk cdi list
-# # end cdi generate --------------------------------------
+- name: nvidia-ctk cdi list
+  shell: nvidia-ctk cdi list
+# end cdi generate --------------------------------------
 
 
 # 重启 containerd 服务

@@ -7,4 +7,4 @@ export COMMON_LOAD_BALANCE_HOSTNAME=master.k8s.local
 # 高可用ip或域名的端口
 export COMMON_LOAD_BALANCE_PORT=6443
 # k8s所有节点的IP，用于写入证书中，多个IP使用逗号分格
-export COMMON_K8S_IPS=192.168.0.115
+export COMMON_K8S_IPS=192.168.0.117,192.168.0.118,192.168.0.100

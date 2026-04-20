@@ -35,7 +35,7 @@
   args:
     chdir: "{{ project_root }}/roles/configure/files/scripts/cert"
   register: create_certs_kubeconfigs_result
-  no_log: true
+  no_log: false
 - name: print create_certs_kubeconfigs_result
   run_once: true
   debug:

@@ -115,3 +115,16 @@ if [ ! -f "${DOWNLOAD_DIR}/cilium-linux-amd64.tar.gz" ]; then
         tar -xf "${DOWNLOAD_DIR}/cilium-linux-amd64.tar.gz" -C "${DOWNLOAD_DIR}"
     fi
 fi
+
+
+if [ ! -f "${DOWNLOAD_DIR}/kubectl" ]; then
+    cp "${DOWNLOAD_DIR}/kubectl" /usr/local/bin/
+fi
+
+if [ ! -f "${DOWNLOAD_DIR}/cfssljson" ]; then
+    cp "${DOWNLOAD_DIR}/cfssljson" /usr/local/bin/
+fi
+
+if [ ! -f "${DOWNLOAD_DIR}/cfssl" ]; then
+    cp "${DOWNLOAD_DIR}/cfssl" /usr/local/bin/
+fi
