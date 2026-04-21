@@ -114,6 +114,8 @@
     name:
       - ipset
       - ipvsadm
+      - curl
+      - wget
     state: present
   no_log: true
 
