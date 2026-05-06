@@ -12,7 +12,7 @@ kubectl create ns ingress-nginx
 for var in `kubectl get nodes | grep -v 'NAME' | awk '{print $1}'`; do kubectl label node $var ingress=true; done
 
 # 替换镜像地址
-sed -i "s#registry.k8s.io#k8s.m.daocloud.io#g" values.yaml
+sed -i "s#registry.k8s.io#docker.gh-proxy.org#g" values.yaml
 
 # 安装 ingress-controller
 helm install ingress-nginx -n ingress-nginx .
