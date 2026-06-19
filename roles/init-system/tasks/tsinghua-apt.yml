@@ -1,0 +1,46 @@
+- name: 备份 sources.list 文件
+  copy:
+    src: /etc/apt/sources.list
+    dest: /etc/apt/sources.list.bak-{{ ansible_date_time.iso8601 }}
+    mode: 0644
+    owner: root
+    group: root
+
+- name: 复制 sources.list 到 /etc/apt/sources.list
+  copy:
+    src: sources.list
+    dest: /etc/apt/sources.list
+    mode: 0644
+    owner: root
+    group: root
+
+
+- name: 检查 /etc/apt/sources.list.d/ 目录是否存在
+  stat:
+    path: /etc/apt/sources.list.d/
+  register: sources_list_d_stat
+
+- name: 备份 /etc/apt/sources.list.d/ 目录
+  copy:
+    src: /etc/apt/sources.list.d/
+    dest: /etc/apt/sources.list.d.bak-{{ ansible_date_time.iso8601 }}
+    mode: 0755
+    owner: root
+    group: root
+  when: sources_list_d_stat.stat.exists and sources_list_d_stat.stat.isdir
+
+- name: 确保 /etc/apt/sources.list.d/ 目录存在
+  file:
+    path: /etc/apt/sources.list.d/
+    state: directory
+    mode: 0755
+    owner: root
+    group: root
+
+- name: 复制 tsinghua.sources 到 /etc/apt/sources.list.d/
+  copy:
+    src: tsinghua.sources
+    dest: /etc/apt/sources.list.d/
+    mode: 0644
+    owner: root
+    group: root
