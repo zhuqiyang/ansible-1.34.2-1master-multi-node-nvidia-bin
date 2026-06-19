@@ -63,6 +63,7 @@
     mode: 0644
     owner: root
     group: root
+  when: tsinghua_apt_source_enabled == true
 
 - name: 复制 sources.list 到 /etc/apt/sources.list
   copy:
@@ -71,6 +72,7 @@
     mode: 0644
     owner: root
     group: root
+  when: tsinghua_apt_source_enabled == true
 
 
 - name: 检查 /etc/apt/sources.list.d/ 目录是否存在

@@ -31,6 +31,12 @@ harbor_hostname: 'harbor.k8s.local'
 proxy_enabled: false
 proxy_url: 'socks5://192.168.0.100:7897'
 
+# 是否安装nvidia device plugin
+nvidia_device_plugin_enabled: false
+
+# 是否替换为清华apt源
+tsinghua_apt_source_enabled: true
+
 # 各个节点的DNS解析
 hosts:
 - { ip_address: '192.168.0.117', name: 'master.k8s.local', alias: 'etcd.k8s.local' }
