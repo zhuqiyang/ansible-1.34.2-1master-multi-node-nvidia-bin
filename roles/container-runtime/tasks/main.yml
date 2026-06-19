@@ -27,10 +27,16 @@
   debug:
     var: lspci_result.stdout
 
-- name: 安装containerd
-  include_tasks: install-containerd.yml
-  when: not container_runtimeok_result.stat.exists and container_runtime == 'containerd' and lspci_result.stdout == '没有显卡' and nvidia_device_plugin_enabled == false
+- name: 确定 containerd 安装任务文件
+  set_fact:
+    containerd_install_file: "{{ 'install-containerd-nvidia.yml' if lspci_result.stdout == '有显卡' and (nvidia_device_plugin_enabled | bool) else 'install-containerd.yml' }}"
+  when: >
+    not container_runtimeok_result.stat.exists
+    and container_runtime == 'containerd'
 
-- name: 安装containerd-nvidia
-  include_tasks: install-containerd-nvidia.yml
-  when: not container_runtimeok_result.stat.exists and container_runtime == 'containerd' and lspci_result.stdout == '有显卡' and nvidia_device_plugin_enabled == true
+- name: 安装 containerd（按是否有显卡与 nvidia_device_plugin_enabled 变量决定执行哪个任务文件）
+  include_tasks:
+    file: "{{ containerd_install_file }}"
+  when: >
+    not container_runtimeok_result.stat.exists
+    and container_runtime == 'containerd'
