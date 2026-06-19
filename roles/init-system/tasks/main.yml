@@ -15,4 +15,3 @@
   debug:
     msg: "已初始化完成"
   when: initok_result.stat.exists
-
