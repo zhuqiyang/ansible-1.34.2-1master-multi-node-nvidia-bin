@@ -161,7 +161,7 @@ download_file "${DOWNLOAD_DIR}/cri-dockerd-${cri_dockerd_version}.amd64.tgz" \
 
 # 4. docker
 download_file "${DOWNLOAD_DIR}/docker-${docker_version}.tgz" \
-    "https://download.docker.com/linux/static/stable/x86_64/docker-${docker_version}.tgz"
+    "${proxy_url}https://download.docker.com/linux/static/stable/x86_64/docker-${docker_version}.tgz"
 
 # 5. etcd
 download_file "${DOWNLOAD_DIR}/etcd-v${etcd_version}-linux-amd64.tar.gz" \
@@ -173,7 +173,7 @@ download_file "${DOWNLOAD_DIR}/cni-plugins-linux-amd64-v${cni_version}.tgz" \
 
 # 7. kubernetes-server
 download_file "${DOWNLOAD_DIR}/kubernetes-server-linux-amd64.tar.gz" \
-    "https://dl.k8s.io/${k8s_version}/kubernetes-server-linux-amd64.tar.gz"
+    "${proxy_url}https://dl.k8s.io/${k8s_version}/kubernetes-server-linux-amd64.tar.gz"
 
 # 8. nerdctl
 download_file "${DOWNLOAD_DIR}/nerdctl-${nerdctl_version}-linux-amd64.tar.gz" \
@@ -259,7 +259,7 @@ fi
 if [ ! -f "${DOWNLOAD_DIR}/crictl" ]; then
     echo "  [解压] crictl-v${crictl_version}-linux-amd64.tar.gz"
     tar -xf "${DOWNLOAD_DIR}/crictl-v${crictl_version}-linux-amd64.tar.gz" -C "${DOWNLOAD_DIR}"
-    mv "${DOWNLOAD_DIR}/crictl-v${crictl_version}-linux-amd64"/{crictl} "${DOWNLOAD_DIR}/"
+    mv "${DOWNLOAD_DIR}/crictl-v${crictl_version}-linux-amd64"/crictl "${DOWNLOAD_DIR}/"
 else
     echo "  [跳过] 已解压: crictl"
 fi
