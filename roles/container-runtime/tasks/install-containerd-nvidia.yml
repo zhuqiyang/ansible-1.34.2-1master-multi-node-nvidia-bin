@@ -158,6 +158,109 @@
   args:
     creates: /etc/containerd/config.toml
 
+# 将 config_path = '' 改为 config_path = "/etc/containerd/certs.d"
+- name: 配置 containerd registry config_path
+  replace:
+    path: /etc/containerd/config.toml
+    regexp: '(\[plugins\."io\.containerd\.cri\.v1\.images"\.registry\][^\[]*?config_path\s*=\s*")[^"]*"'
+    replace: '\1/etc/containerd/certs.d"'
+    backup: yes
+
+# 创建 /etc/containerd/certs.d/ 目录
+- name: 创建 /etc/containerd/certs.d/ 目录
+  file:
+    path: /etc/containerd/certs.d/
+    state: directory
+    mode: 0755
+    owner: root
+    group: root
+
+# 配置各 registry 镜像加速
+- name: 配置各 registry 镜像加速
+  vars:
+    containerd_registry_mirrors:
+      - name: docker.io
+        content: |
+          server = "https://docker.io"
+          [host."https://dockerproxy.com"]
+            capabilities = ["pull", "resolve"]
+          [host."https://docker.m.daocloud.io"]
+            capabilities = ["pull", "resolve"]
+          [host."https://reg-mirror.qiniu.com"]
+            capabilities = ["pull", "resolve"]
+          [host."https://registry.docker-cn.com"]
+            capabilities = ["pull", "resolve"]
+          [host."http://hub-mirror.c.163.com"]
+            capabilities = ["pull", "resolve"]
+      - name: registry.k8s.io
+        content: |
+          server = "https://registry.k8s.io"
+          [host."https://k8s.m.daocloud.io"]
+            capabilities = ["pull", "resolve", "push"]
+      - name: docker.elastic.co
+        content: |
+          server = "https://docker.elastic.co"
+          [host."https://elastic.m.daocloud.io"]
+            capabilities = ["pull", "resolve", "push"]
+      - name: gcr.io
+        content: |
+          server = "https://gcr.io"
+          [host."https://gcr.m.daocloud.io"]
+            capabilities = ["pull", "resolve", "push"]
+      - name: ghcr.io
+        content: |
+          server = "https://ghcr.io"
+          [host."https://ghcr.m.daocloud.io"]
+            capabilities = ["pull", "resolve", "push"]
+      - name: k8s.gcr.io
+        content: |
+          server = "https://k8s.gcr.io"
+          [host."https://k8s-gcr.m.daocloud.io"]
+            capabilities = ["pull", "resolve", "push"]
+      - name: mcr.microsoft.com
+        content: |
+          server = "https://mcr.microsoft.com"
+          [host."https://mcr.m.daocloud.io"]
+            capabilities = ["pull", "resolve", "push"]
+      - name: nvcr.io
+        content: |
+          server = "https://nvcr.io"
+          [host."https://nvcr.m.daocloud.io"]
+            capabilities = ["pull", "resolve", "push"]
+      - name: quay.io
+        content: |
+          server = "https://quay.io"
+          [host."https://quay.m.daocloud.io"]
+            capabilities = ["pull", "resolve", "push"]
+      - name: registry.jujucharms.com
+        content: |
+          server = "https://registry.jujucharms.com"
+          [host."https://jujucharms.m.daocloud.io"]
+            capabilities = ["pull", "resolve", "push"]
+      - name: rocks.canonical.com
+        content: |
+          server = "https://rocks.canonical.com"
+          [host."https://rocks-canonical.m.daocloud.io"]
+            capabilities = ["pull", "resolve", "push"]
+  block:
+    - name: 创建 registry 镜像加速目录
+      file:
+        path: "/etc/containerd/certs.d/{{ item.name }}/"
+        state: directory
+        mode: 0755
+        owner: root
+        group: root
+      loop: "{{ containerd_registry_mirrors }}"
+
+    - name: 生成 hosts.toml 镜像加速配置
+      copy:
+        content: "{{ item.content }}"
+        dest: "/etc/containerd/certs.d/{{ item.name }}/hosts.toml"
+        mode: 0644
+        owner: root
+        group: root
+      loop: "{{ containerd_registry_mirrors }}"
+
 
 # # config harbor
 # - name: mkdir /etc/containerd/certs.d/{{ harbor_hostname }}/
