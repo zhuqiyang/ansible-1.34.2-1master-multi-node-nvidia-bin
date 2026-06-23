@@ -259,7 +259,6 @@ fi
 if [ ! -f "${DOWNLOAD_DIR}/crictl" ]; then
     echo "  [解压] crictl-v${crictl_version}-linux-amd64.tar.gz"
     tar -xf "${DOWNLOAD_DIR}/crictl-v${crictl_version}-linux-amd64.tar.gz" -C "${DOWNLOAD_DIR}"
-    mv "${DOWNLOAD_DIR}/crictl-v${crictl_version}-linux-amd64"/crictl "${DOWNLOAD_DIR}/"
 else
     echo "  [跳过] 已解压: crictl"
 fi
