@@ -169,12 +169,13 @@
   args:
     creates: /etc/containerd/config.toml
 
-# 将 config_path = '' 改为 config_path = "/etc/containerd/certs.d"
+# 仅修改 [plugins.'io.containerd.cri.v1.images'.registry] 段下的 config_path
+# 将 config_path = '' 改为 config_path = '/etc/containerd/certs.d/'
 - name: 配置 containerd registry config_path
   replace:
     path: /etc/containerd/config.toml
-    regexp: '(\[plugins\."io\.containerd\.cri\.v1\.images"\.registry\][^\[]*?config_path\s*=\s*")[^"]*"'
-    replace: '\1/etc/containerd/certs.d"'
+    regexp: '(\[plugins\.''io\.containerd\.cri\.v1\.images''\.registry\][\s\S]*?config_path\s*=\s*)''[^'']*'''
+    replace: '\1''/etc/containerd/certs.d/'''
     backup: yes
 
 # 创建 /etc/containerd/certs.d/ 目录
