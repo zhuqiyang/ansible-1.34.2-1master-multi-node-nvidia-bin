@@ -1,5 +1,10 @@
 #!/bin/bash
 
+
+# 下载 coredns
+# helm repo add coredns https://coredns.github.io/helm
+# helm pull coredns/coredns
+
 . addon_vars.sh
 
 # 安装 coredns

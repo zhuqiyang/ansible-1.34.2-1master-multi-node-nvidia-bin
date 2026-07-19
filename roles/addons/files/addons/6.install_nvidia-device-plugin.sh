@@ -1,5 +1,11 @@
 #!/bin/bash
 
+
+# 下载 nvidia-device-plugin
+# helm repo add nvdp https://nvidia.github.io/k8s-device-plugin
+# helm pull nvdp/nvidia-device-plugin --version 0.18.0
+
+
 cat > runtimeclass.yaml <<EOF
 apiVersion: node.k8s.io/v1
 kind: RuntimeClass

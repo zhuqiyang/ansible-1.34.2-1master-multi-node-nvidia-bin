@@ -1,6 +1,11 @@
 #!/bin/bash
 
 
+# 下载 ingress-nginx
+# helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+# helm pull ingress-nginx/ingress-nginx
+
+
 # 安装 ingress-controller
 tar -xf ingress-nginx-*.tgz
 cd ingress-nginx/

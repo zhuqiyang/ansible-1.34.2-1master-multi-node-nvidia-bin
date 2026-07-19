@@ -3,11 +3,6 @@
 #export https_proxy=http://192.168.0.100:7897
 #export http_proxy=http://192.168.0.100:7897
 
-# 安装 helm
-wget https://mirrors.huaweicloud.com/helm/v3.16.3/helm-v3.16.3-linux-amd64.tar.gz
-tar -xf helm-*-linux-amd64.tar.gz
-cp linux-amd64/helm /usr/local/bin/
-
 # 下载 cilium
 helm repo add cilium https://helm.cilium.io
 helm pull cilium/cilium
@@ -20,8 +15,21 @@ helm pull coredns/coredns
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 helm pull ingress-nginx/ingress-nginx
 
+# 下载 nvidia-device-plugin
 helm repo add nvdp https://nvidia.github.io/k8s-device-plugin
 helm pull nvdp/nvidia-device-plugin --version 0.18.0
+
+# 下载 openebs
+helm repo add openebs https://openebs.github.io/openebs
+helm pull openebs/openebs
+
+# 系在 prometheus
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm pull prometheus-community/prometheus
+
+# 下载 minio
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm pull bitnami/minio
 
 # 下载 metrics-server
 # wget https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml -O metrics-server.yaml

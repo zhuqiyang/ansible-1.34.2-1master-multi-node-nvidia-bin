@@ -1,5 +1,11 @@
 #!/bin/bash
 
+
+# 下载 cilium
+# helm repo add cilium https://helm.cilium.io
+# helm pull cilium/cilium
+
+
 # 安装 cilium
 tar -xf cilium-*.tgz
 cd cilium/
