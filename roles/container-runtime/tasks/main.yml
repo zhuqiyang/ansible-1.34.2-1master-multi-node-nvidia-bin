@@ -10,10 +10,6 @@
     msg: container-runtime已安装
   when: container_runtimeok_result.stat.exists
 
-- name: 安装docker
-  include_tasks: install-docker.yml
-  when: not container_runtimeok_result.stat.exists and container_runtime == 'docker'
-
 - name: 检查是否有显卡
   shell: |
     if lspci | grep -i 'NVIDIA' > /dev/null; then
@@ -26,6 +22,7 @@
 - name: 打印lspci结果
   debug:
     var: lspci_result.stdout
+
 
 - name: 确定 containerd 安装任务文件
   set_fact:
@@ -40,3 +37,19 @@
   when: >
     not container_runtimeok_result.stat.exists
     and container_runtime == 'containerd'
+
+
+
+- name: 确定 docker 安装任务文件
+  set_fact:
+    docker_install_file: "{{ 'install-docker-nvidia.yml' if lspci_result.stdout == '有显卡' and (nvidia_device_plugin_enabled | bool) else 'install-docker.yml' }}"
+  when: >
+    not container_runtimeok_result.stat.exists
+    and container_runtime == 'docker'
+
+- name: 安装 docker（按是否有显卡与 nvidia_device_plugin_enabled 变量决定执行哪个任务文件）
+  include_tasks:
+    file: "{{ docker_install_file }}"
+  when: >
+    not container_runtimeok_result.stat.exists
+    and container_runtime == 'docker'
