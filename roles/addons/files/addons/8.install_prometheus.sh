@@ -36,6 +36,6 @@ cd prometheus
 #     size: 2Gi
 
 
-sed -i 's/    # storageClass: "-"/    # storageClass: "openebs-hostpath"/' values.yaml
+sed -i 's/    # storageClass: "-"/    storageClass: "openebs-hostpath"/' values.yaml
 
 helm install prometheus . -n monitoring --create-namespace

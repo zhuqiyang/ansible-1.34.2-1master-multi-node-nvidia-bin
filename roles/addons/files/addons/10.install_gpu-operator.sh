@@ -9,7 +9,7 @@
 
 cd gpu-operator
 
-helm install gpu-operator nvidia/gpu-operator \
+helm install gpu-operator . \
   --namespace gpu-operator \
   --create-namespace \
   --set driver.enabled=true \
