@@ -6,7 +6,7 @@
 
 # helm pull nvidia/gpu-operator
 
-
+tar -xf gpu-operator-v26.3.2.tgz
 cd gpu-operator
 
 helm install gpu-operator . \
