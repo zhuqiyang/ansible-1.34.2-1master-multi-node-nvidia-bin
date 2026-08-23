@@ -4,10 +4,11 @@
 # helm pull kedacore/keda
 
 tar -xf keda-2.20.1.tgz
+cd keda
 
 helm install keda . \
   --namespace keda \
   --create-namespace \
   --set resources.operator.requests.cpu=100m \
   --set resources.operator.requests.memory=128Mi \
-  --set metricsAdapter.podIdentity.activeDirectory.enabled=false 
+  --set metricsAdapter.podIdentity.activeDirectory.enabled=false
